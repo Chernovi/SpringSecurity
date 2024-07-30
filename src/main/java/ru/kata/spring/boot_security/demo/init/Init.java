@@ -7,7 +7,7 @@ import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.services.UserService;
 
 import javax.annotation.PostConstruct;
-import java.util.Collections;
+import java.util.Set;
 
 @Component
 public class Init {
@@ -31,14 +31,18 @@ public class Init {
 
         User user = new User();
         user.setName("user");
+        user.setLastName("userLN");
+        user.setAge(25);
         user.setPassword("user");
-        user.setRoles(Collections.singletonList(role));
+        user.setRoles(Set.of(role));
         userService.add(user);
 
         User user1 = new User();
         user1.setName("admin");
+        user1.setLastName("adminLN");
+        user1.setAge(32);
         user1.setPassword("admin");
-        user1.setRoles(Collections.singletonList(admin));
+        user1.setRoles(Set.of(admin));
         userService.add(user1);
     }
 }

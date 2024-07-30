@@ -5,13 +5,13 @@ import javax.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
+
 
 import java.util.Collection;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
-@Component
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
@@ -20,8 +20,14 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String name;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(name = "age")
+    private int age;
 
     @Column(name = "password")
     private String password;
@@ -30,16 +36,19 @@ public class User implements UserDetails {
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<Role> roles;
+    private Set<Role> roles;
 
     public User() {
 
     }
 
-    public User(Long id, String name, String password) {
+    public User(Long id, String name, String lastName, int age, String password, Set<Role> roles) {
         this.id = id;
         this.name = name;
+        this.lastName = lastName;
+        this.age = age;
         this.password = password;
+        this.roles = roles;
     }
 
     public Long getId() {
@@ -74,6 +83,22 @@ public class User implements UserDetails {
         return name;
     }
 
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -98,20 +123,21 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public Collection<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Collection<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
-
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
                 '}';
     }
 }

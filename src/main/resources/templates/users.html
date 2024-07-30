@@ -14,12 +14,16 @@
         <tr>
             <th>ID</th>
             <th>Name</th>
+            <th>LastName</th>
+            <th>Age</th>
             <th>Roles</th>
             <th>Operations</th>
         </tr>
         <tr th:each = "user : ${users}">
             <td th:utext="${user.getId()}">...</td>
             <td th:utext="${user.getName()}">...</td>
+            <td th:utext="${user.getLastName()}">...</td>
+            <td th:utext="${user.getAge()}">...</td>
             <td> <th:block th:each="role : ${user.getRoles()}">
                 <p th:text="${role.name}"></p>
             </th:block></td>
